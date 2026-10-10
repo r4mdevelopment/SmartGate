@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "provider_id": "own",
+  "endpoints": [
+    {
+      "ip": "159.194.200.33",
+      "port": 443,
+      "transport": "tls_sni_tcp",
+      "domains": [
+        "chatgpt.com"
+      ]
+    },
+    {
+      "ip": "193.233.112.67",
+      "port": 443,
+      "transport": "tls_sni_tcp",
+      "domains": [
+        "chatgpt.com"
+      ]
+    },
+    {
+      "ip": "193.233.112.68",
+      "port": 443,
+      "transport": "tls_sni_tcp",
+      "domains": [
+        "chatgpt.com"
+      ]
+    },
+    {
+      "ip": "193.233.112.88",
+      "port": 443,
+      "transport": "tls_sni_tcp",
+      "domains": [
+        "chatgpt.com"
+      ]
+    }
+  ]
+}

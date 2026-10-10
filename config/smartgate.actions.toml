@@ -1,0 +1,44 @@
+# GitHub Actions configuration. Manual apply requires workflow input confirmation.
+# Scheduled apply also requires SMARTGATE_APPLY_ENABLED=true.
+schema_version = 2
+catalog_path = "services.toml"
+
+[dns]
+provider = "nextdns"
+instance_id = "primary"
+
+[dns.connection]
+namespace_env = "SMARTGATE_DNS_PROFILE_ID"
+
+[dns.auth]
+kind = "api_key"
+api_key_env = "SMARTGATE_DNS_API_KEY"
+
+[state]
+provider = "git_branch"
+path = "../.smartgate/state.json"
+branch = "smartgate-state"
+
+[[relay.providers]]
+id = "geohide-ru"
+type = "geohide"
+region = "RU"
+
+[[relay.providers]]
+id = "geohide-eu"
+type = "geohide"
+region = "EU"
+
+[probe]
+attempts = 2
+timeout_s = 4.0
+concurrency = 8
+max_candidates_per_domain = 2
+max_pairs = 200
+
+[sync]
+enabled = true
+allow_prune = false
+max_records = 100
+max_mutations = 20
+max_change_ratio = 0.25

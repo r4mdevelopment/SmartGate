@@ -1,0 +1,46 @@
+schema_version = 2
+catalog_path = "../services.toml"
+
+[dns]
+provider = "technitium"
+instance_id = "authoritative"
+
+[dns.connection]
+api_url_env = "SMARTGATE_DNS_API_URL"
+namespace_env = "SMARTGATE_DNS_NAMESPACE"
+
+[dns.auth]
+kind = "bearer"
+api_key_env = "SMARTGATE_DNS_API_KEY"
+
+[dns.verify]
+doh_url_env = "SMARTGATE_DNS_DOH_URL"
+
+[state]
+provider = "local"
+path = "../../.smartgate/state.json"
+branch = "smartgate-state"
+
+[[relay.providers]]
+id = "geohide-ru"
+type = "geohide"
+region = "RU"
+
+[[relay.providers]]
+id = "geohide-eu"
+type = "geohide"
+region = "EU"
+
+[probe]
+attempts = 2
+timeout_s = 4.0
+concurrency = 8
+max_candidates_per_domain = 2
+max_pairs = 200
+
+[sync]
+enabled = false
+allow_prune = false
+max_records = 100
+max_mutations = 20
+max_change_ratio = 0.25

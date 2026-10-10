@@ -1,0 +1,23 @@
+{
+  "source": "https://github.com/AdguardTeam/AdGuardHome/blob/336e9c9df4efa3fb5918e7f33827300805f46bf3/openapi/openapi.yaml",
+  "commit": "336e9c9df4efa3fb5918e7f33827300805f46bf3",
+  "api_version": "0.107",
+  "auth": "basic",
+  "list": [
+    "GET",
+    "/control/rewrite/list"
+  ],
+  "add": [
+    "POST",
+    "/control/rewrite/add"
+  ],
+  "delete": [
+    "POST",
+    "/control/rewrite/delete"
+  ],
+  "update": [
+    "PUT",
+    "/control/rewrite/update"
+  ],
+  "immutable_record_id": false
+}

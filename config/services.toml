@@ -1,0 +1,60 @@
+# Initial selection scopes, not a guarantee of a complete ChatGPT domain list.
+# DNS-provider rewrites may affect descendants; publication validates exclusions.
+[services.chatgpt]
+enabled = true
+include_suffixes = ["chatgpt.com", "openai.com", "oaistatic.com", "oaiusercontent.com"]
+required_domains = ["chatgpt.com"]
+exclude_suffixes = []
+provider_order = ["geohide-ru", "geohide-eu"]
+allow_subtree_rewrites = true
+
+# Optional presets: reviewed against GeoHide RU hosts on 2026-10-08.
+# Enable one at a time after preview and device acceptance; see docs/en/providers/services.md.
+
+[services.claude]
+enabled = false
+include_suffixes = ["claude.ai", "claude.com", "anthropic.com", "claudemcpclient.com", "claudeusercontent.com"]
+required_domains = ["claude.ai"]
+exclude_suffixes = []
+provider_order = ["geohide-ru", "geohide-eu"]
+allow_subtree_rewrites = true
+
+[services.gemini]
+enabled = false
+include_suffixes = ["gemini.google.com", "aistudio.google.com", "generativelanguage.googleapis.com", "geminiweb-pa.clients6.google.com", "geminiweb-pa.clients.google.com", "alkalimakersuite-pa.clients6.google.com", "makersuite.google.com", "aisandbox-pa.googleapis.com", "waa-pa.clients6.google.com", "signaler-pa.clients6.google.com", "webchannel-alkalimakersuite-pa.clients6.google.com"]
+required_domains = ["gemini.google.com"]
+exclude_suffixes = []
+provider_order = ["geohide-ru", "geohide-eu"]
+allow_subtree_rewrites = true
+
+[services.spotify]
+enabled = false
+include_suffixes = ["spotify.com", "scdn.co"]
+required_domains = ["open.spotify.com"]
+exclude_suffixes = []
+provider_order = ["geohide-ru", "geohide-eu"]
+allow_subtree_rewrites = true
+
+[services.notion]
+enabled = false
+include_suffixes = ["notion.com", "notion.so"]
+required_domains = ["www.notion.so"]
+exclude_suffixes = []
+provider_order = ["geohide-ru", "geohide-eu"]
+allow_subtree_rewrites = true
+
+[services.deepl]
+enabled = false
+include_suffixes = ["deepl.com", "deepl.app"]
+required_domains = ["www.deepl.com"]
+exclude_suffixes = []
+provider_order = ["geohide-ru", "geohide-eu"]
+allow_subtree_rewrites = true
+
+[services.cursor]
+enabled = false
+include_suffixes = ["cursor.com", "cursor.sh", "cursor-cdn.com", "cursorvm.com", "marketplace.cursorapi.com"]
+required_domains = ["cursor.com"]
+exclude_suffixes = []
+provider_order = ["geohide-ru", "geohide-eu"]
+allow_subtree_rewrites = true

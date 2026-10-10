@@ -1,0 +1,12 @@
+{
+  "source": "https://github.com/TechnitiumSoftware/DnsServer/blob/736bd562bea536f1dd93692ab70ad909ae03d16a/APIDOCS.md",
+  "commit": "736bd562bea536f1dd93692ab70ad909ae03d16a",
+  "api_version": "15+",
+  "auth": "bearer-header",
+  "scope": "existing-authoritative-zone",
+  "immutable_record_id": false,
+  "list": "/api/zones/records/get",
+  "add": "/api/zones/records/add",
+  "update": "/api/zones/records/update",
+  "delete": "/api/zones/records/delete"
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 420" role="img" aria-labelledby="title"><title id="title">GeoHide / свой relay → SmartGate в Actions → DNS-провайдер</title><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#28b9c7"/></marker></defs>
+<path d="M 180.0 131 V 147" fill="none" stroke="#28b9c7" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="16" width="320" height="112" rx="16" fill="#112337" stroke="#294b60"/>
+<circle cx="48" cy="43" r="13" fill="#183e50"/><text x="48" y="48" text-anchor="middle" fill="#68e2df" font-family="Arial,sans-serif" font-size="14">1</text>
+<text x="180.0" y="81" text-anchor="middle" fill="#f0f7ff" font-family="Arial,sans-serif" font-size="21" font-weight="600">GeoHide / свой relay</text><text x="180.0" y="109" text-anchor="middle" fill="#aac1d3" font-family="Arial,sans-serif" font-size="16">Публикует адреса</text>
+<path d="M 180.0 267 V 283" fill="none" stroke="#28b9c7" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="20" y="152" width="320" height="112" rx="16" fill="#112337" stroke="#294b60"/>
+<circle cx="48" cy="179" r="13" fill="#183e50"/><text x="48" y="184" text-anchor="middle" fill="#68e2df" font-family="Arial,sans-serif" font-size="14">2</text>
+<text x="180.0" y="217" text-anchor="middle" fill="#f0f7ff" font-family="Arial,sans-serif" font-size="21" font-weight="600">SmartGate в Actions</text><text x="180.0" y="245" text-anchor="middle" fill="#aac1d3" font-family="Arial,sans-serif" font-size="16">Проверяет маршруты</text>
+<rect x="20" y="288" width="320" height="112" rx="16" fill="#112337" stroke="#294b60"/>
+<circle cx="48" cy="315" r="13" fill="#183e50"/><text x="48" y="320" text-anchor="middle" fill="#68e2df" font-family="Arial,sans-serif" font-size="14">3</text>
+<text x="180.0" y="353" text-anchor="middle" fill="#f0f7ff" font-family="Arial,sans-serif" font-size="21" font-weight="600">DNS-провайдер</text><text x="180.0" y="381" text-anchor="middle" fill="#aac1d3" font-family="Arial,sans-serif" font-size="16">Обновляет DNS-ответы</text>
+</svg>

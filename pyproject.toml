@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smartgate"
+version = "0.1.0"
+description = "Smart DNS control-plane with replaceable relay providers"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = ["httpx>=0.28,<1", "dnspython>=2.8,<3", "cryptography>=50,<51"]
+
+[project.scripts]
+smartgate = "smartgate.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.12,<1", "mypy>=1.15,<2", "build>=1,<2", "pip-tools>=7,<8", "setuptools>=75", "wheel"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = ["live: explicit opt-in NextDNS compatibility check"]
+addopts = "--strict-markers"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]

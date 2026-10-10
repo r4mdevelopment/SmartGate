@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "provider_id": "own",
+  "endpoints": [
+    {
+      "ip": "203.0.113.10",
+      "port": 443,
+      "transport": "tls_sni_tcp",
+      "domains": [
+        "chatgpt.com"
+      ]
+    }
+  ]
+}

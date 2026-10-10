@@ -1,0 +1,9 @@
+include README.md README.ru.md CHANGELOG.md LICENSE requirements*.lock
+recursive-include config *.toml *.json
+exclude config/smartgate.toml
+include docs/README.md
+recursive-include docs/en *.md
+recursive-include docs/ru *.md
+recursive-include docs/assets *.svg
+recursive-include tools *.py
+recursive-include tests *.py *.json *.hosts

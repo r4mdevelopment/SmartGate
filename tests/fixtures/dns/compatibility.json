@@ -1,0 +1,90 @@
+{
+  "checked_at": "2026-10-07T20:02:56.665914+00:00",
+  "observations": [
+    {
+      "domain": "cloudflare.com",
+      "qtype": "AAAA",
+      "answers": [
+        "2606:4700::6810:84e5",
+        "2606:4700::6810:85e5"
+      ]
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "HTTPS",
+      "answers": [
+        "1 . alpn=\"h3,h2\" ipv4hint=\"104.16.132.229,104.16.133.229\" ipv6hint=\"2606:4700::6810:84e5,2606:4700::6810:85e5\""
+      ]
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.8.8"
+      ]
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.8.8"
+      ]
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.8.8"
+      ]
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "1.1.1.1"
+      ]
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "A",
+      "answers": []
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.4.4"
+      ]
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "A",
+      "answers": [
+        "104.16.132.229",
+        "104.16.133.229"
+      ]
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.8.8"
+      ]
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "AAAA",
+      "answers": []
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "HTTPS",
+      "answers": []
+    }
+  ],
+  "subtree_behavior": true,
+  "child_precedence": true,
+  "ipv4_rewrite_suppresses_aaaa": true,
+  "ipv4_rewrite_suppresses_https": true,
+  "observation_deadline_seconds": 60
+}

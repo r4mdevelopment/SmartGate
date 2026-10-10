@@ -1,0 +1,72 @@
+{
+  "checked_at": "2026-10-07T20:02:56.665914+00:00",
+  "profile_id_redacted": true,
+  "endpoint": "/profiles/{profile_id}/rewrites",
+  "update_strategy": "delete_create",
+  "delete_status": 204,
+  "empty_list_response": {
+    "data": []
+  },
+  "observations": [
+    {
+      "method": "POST",
+      "result": {
+        "data": {
+          "id": "record-1",
+          "name": "relay-test.example.com",
+          "type": "A",
+          "content": "8.8.8.8"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "result": {
+        "data": {
+          "id": "record-2",
+          "name": "child.relay-test.example.com",
+          "type": "A",
+          "content": "1.1.1.1"
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "result": {}
+    },
+    {
+      "method": "POST",
+      "result": {
+        "data": {
+          "id": "record-3",
+          "name": "relay-test.example.com",
+          "type": "A",
+          "content": "8.8.4.4"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "result": {
+        "data": {
+          "id": "record-4",
+          "name": "cloudflare.com",
+          "type": "A",
+          "content": "8.8.8.8"
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "result": {}
+    },
+    {
+      "method": "DELETE",
+      "result": {}
+    },
+    {
+      "method": "DELETE",
+      "result": {}
+    }
+  ]
+}

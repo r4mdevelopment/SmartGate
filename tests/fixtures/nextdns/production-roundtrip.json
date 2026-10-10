@@ -1,0 +1,236 @@
+{
+  "checked_at": "2026-10-07T21:07:42.463836+00:00",
+  "profile_id_redacted": true,
+  "duration_s": 52.55,
+  "update_strategy": "delete_create",
+  "cleanup_verified": true,
+  "cleanup_count": 3,
+  "api": [
+    {
+      "method": "create",
+      "id": "record-1",
+      "domain": "relay-test.example.com",
+      "content": "8.8.8.8"
+    },
+    {
+      "method": "create",
+      "id": "record-2",
+      "domain": "child.relay-test.example.com",
+      "content": "1.1.1.1"
+    },
+    {
+      "method": "replace",
+      "id": "record-3",
+      "domain": "relay-test.example.com",
+      "content": "8.8.4.4"
+    },
+    {
+      "method": "create",
+      "id": "record-4",
+      "domain": "cloudflare.com",
+      "content": "8.8.8.8"
+    }
+  ],
+  "dns": [
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.8.8"
+      ],
+      "expected": [
+        "8.8.8.8"
+      ],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:03.181374+00:00"
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "AAAA",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:03.261378+00:00"
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "HTTPS",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:03.349811+00:00"
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "SVCB",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:03.430844+00:00"
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.8.8"
+      ],
+      "expected": [
+        "8.8.8.8"
+      ],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:03.514074+00:00"
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "AAAA",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:03.595870+00:00"
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "HTTPS",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:03.682166+00:00"
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "SVCB",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:03.763568+00:00"
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "1.1.1.1"
+      ],
+      "expected": [
+        "1.1.1.1"
+      ],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:06.509711+00:00"
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "AAAA",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:06.594088+00:00"
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "HTTPS",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:06.675056+00:00"
+    },
+    {
+      "domain": "child.relay-test.example.com",
+      "qtype": "SVCB",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:06.756796+00:00"
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.4.4"
+      ],
+      "expected": [
+        "8.8.4.4"
+      ],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:17.096369+00:00"
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "AAAA",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:17.177535+00:00"
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "HTTPS",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:17.258508+00:00"
+    },
+    {
+      "domain": "relay-test.example.com",
+      "qtype": "SVCB",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:17.339212+00:00"
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "A",
+      "answers": [
+        "8.8.8.8"
+      ],
+      "expected": [
+        "8.8.8.8"
+      ],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:20.538904+00:00"
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "AAAA",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:20.618290+00:00"
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "HTTPS",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:20.699843+00:00"
+    },
+    {
+      "domain": "cloudflare.com",
+      "qtype": "SVCB",
+      "answers": [],
+      "expected": [],
+      "ok": true,
+      "reason": "profile DNS confirmed",
+      "checked_at": "2026-10-07T21:07:20.782903+00:00"
+    }
+  ]
+}
