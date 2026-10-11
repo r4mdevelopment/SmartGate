@@ -8,6 +8,8 @@
 
 **The MVP is complete in the verified ChatGPT scenario through NextDNS + GeoHide.** The controller runs in GitHub Actions, reads official hosts, checks routes, synchronizes DNS and retains encrypted state. Repeat runs without changes, operation between runners, the schedule and device access have been confirmed. [Acceptance matrix and its limitations](acceptance.md).
 
+Device access to Claude, Gemini, Spotify, Notion, DeepL and Cursor without geographic access errors has also been confirmed by a user. This covers access in the tested configuration; it does not certify every function or the complete domain sets. Presets remain disabled by default.
+
 A new DNS adapter and a new relay are connected independently. A custom relay is described by a manifest; a VPS IP alone without a working relay is insufficient. AdGuard Home and Technitium currently support reading only.
 
 ## Priorities after the MVP
@@ -18,9 +20,9 @@ The following items remain planned improvements:
 
 | Priority | Improvement | Benefit for the user |
 | --- | --- | --- |
-| 2 | Verify completeness of service presets | Separate verified scenarios from assumptions for every preset; confirm login, messages and file operations; avoid enabling all services automatically |
-| 2 | Encryption-key rotation procedure | A verified transition from an old key to a new one with a backup, closed journal and read-back. Arbitrarily replacing the Secret currently makes previous state unreadable |
-| 2 | Recovery checks on separate infrastructure | Supplement simulated failures with safe backup recovery and version-upgrade tests; the active profile is not used for experiments |
+| 1 | Encryption-key rotation procedure | Back up state, require a closed journal, re-encrypt with the new key and verify reading before completing the switch; never silently replace a Secret |
+| 2 | Recovery checks on separate infrastructure | Exercise backup recovery and version upgrades on a disposable profile, with expected DNS records and ownership checked before and after |
+| 3 | Extended service acceptance | Build on the confirmed access checks: record login, core features and applicable file operations per preset; document missing domains without enabling every service automatically |
 
 Additional DNS adapters can develop through community contributions. They require their own API/DNS compatibility checks and record-ownership evidence; a successful mock test or a single harness run does not automatically enable production writes.
 

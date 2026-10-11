@@ -183,6 +183,10 @@ This branch is required for GitHub Actions runs. Another store can be connected 
 - [x] Versioned release preparation, changelog and fork upgrade instructions.
 - [x] First published versioned release: [v0.1.0](https://github.com/r4mdevelopment/SmartGate/releases/tag/v0.1.0).
 - [x] English documentation by default and a separate Russian version.
+- [x] Device access to Claude, Gemini, Spotify, Notion, DeepL and Cursor confirmed without geographic access errors.
+- [ ] Safe encryption-key rotation with a backup and verified state read-back.
+- [ ] Backup recovery and version-upgrade drills on a separate test profile.
+- [ ] Extended service acceptance: login, core features and applicable file operations.
 
 [Changelog](CHANGELOG.md) · [Upgrade your fork](docs/en/operations/upgrading.md)
 
