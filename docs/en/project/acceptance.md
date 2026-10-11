@@ -4,7 +4,7 @@
 
 # Acceptance checks
 
-Verification status as of **10 October 2026**. **The original MVP is complete for ChatGPT through NextDNS + GeoHide:** working synchronization, confirmed DNS answers, device acceptance, state persistence between runners and a verified schedule. This does not confirm every catalog service or arbitrary DNS providers.
+Verification status as of **11 October 2026**. **The original MVP is complete for ChatGPT through NextDNS + GeoHide:** working synchronization, confirmed DNS answers, device acceptance, state persistence between runners and a verified schedule. This does not confirm every catalog service or arbitrary DNS providers.
 
 Live checks were performed in a separately configured deployment. This public source repository does not contain its operational state, credentials or private reports. Its CI runs offline tests; live acceptance must be repeated for your own installation.
 
@@ -20,6 +20,7 @@ Live checks were performed in a separately configured deployment. This public so
 | State between Actions runners | Passed | Two consecutive deployment runs retained ownership and continued the journal without repeating DNS operations |
 | ChatGPT on Android | Passed manually | Page, login, message, streaming, file upload and download |
 | ChatGPT on a laptop | Confirmed by the user | DNS operation and service access; a separate full feature matrix for each OS was not performed |
+| Claude, Gemini, Spotify, Notion, DeepL and Cursor | Device access confirmed by the user | Services open without geographic access errors in the tested configuration. Full domain-set coverage, login and individual features were not separately confirmed; presets remain disabled by default |
 | Actual scheduled run | Passed | Scheduled doctor in a separately configured deployment: successful Actions, 100/100 DNS checks, 0 operations and 0 mutations |
 | Encrypted Git state and reports | Working | The active ledger is stored in an AES-256-GCM envelope and read by subsequent runners; detailed artifacts are also encrypted |
 | Read-only doctor after the state-store update | Passed | Read-only check in a separately configured deployment: successful Actions, 100/100 DNS checks; rules and state revision unchanged |
