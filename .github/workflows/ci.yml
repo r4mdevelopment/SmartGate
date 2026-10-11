@@ -14,8 +14,7 @@ on:
       - 'requirements*.lock'
       - 'pyproject.toml'
       - 'MANIFEST.in'
-      - '.github/workflows/ci.yml'
-      - '.github/workflows/release.yml'
+      - '.github/workflows/*.yml'
   pull_request:
     paths:
       - 'src/**'
@@ -28,8 +27,7 @@ on:
       - 'requirements*.lock'
       - 'pyproject.toml'
       - 'MANIFEST.in'
-      - '.github/workflows/ci.yml'
-      - '.github/workflows/release.yml'
+      - '.github/workflows/*.yml'
   workflow_dispatch:
 
 permissions:

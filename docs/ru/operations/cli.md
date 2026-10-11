@@ -123,3 +123,7 @@ python -m smartgate preview --config config/smartgate.actions.toml --state-provi
 ## Смена ключа состояния
 
 `state-rotate` требует живого привязанного Git-состояния, `SMARTGATE_STATE_NEW_ENCRYPTION_KEY` и выключенного автоприменения. Без `--apply` выполняется только проверка; с `--apply` создаётся backup и перешифровывается журнал без DNS-записей. Bootstrap, offline, rollback ID и флаг приёмки без изменений не допускаются. [Порядок перехода](key-rotation.md).
+
+## Проверка аварийного переключения
+
+`preview --emergency-only` проверяет только подходящий массовый отказ; `sync --emergency-only --apply` применяет ограниченный план замен. Bootstrap, offline, recovery, rollback и приёмку без изменений с ним совмещать нельзя. В Actions для проверки без записей выберите `emergency_only=true`, `command=preview`. Для аварийного применения нужен также переключатель apply в Environment. [Условия, включение и ограничения](failover.md).

@@ -31,6 +31,9 @@ COUNT_NAMES = {
     "probes",
     "selected",
     "operations",
+    "failover_owned",
+    "failover_failed_initial",
+    "failover_failed_confirmed",
 }
 
 
@@ -103,6 +106,8 @@ def public_report(report: RunReport) -> tuple[str, str]:
         "Detailed operational data is available only in the encrypted artifact.",
         "",
     ]
+    if any(name == "failover_owned" for name, _ in report.counts):
+        lines += ["Emergency-only inspection: normal publication changes are excluded.", ""]
     if configuration_valid:
         lines += ["Configuration valid", ""]
     if issues:

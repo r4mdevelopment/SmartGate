@@ -22,6 +22,7 @@ Choose your task: configure the controller, check access, recover a run or conne
 
 | Document | What you will find |
 | --- | --- |
+| [Emergency failover](operations/failover.md) | Opt-in replacement after confirmed mass TLS failure |
 | [Route monitoring](operations/monitoring.md) | Short read-only DNS/TLS/HTTP observations and encrypted reports |
 | [Error reasons in Summary](operations/diagnostics.md) | Safe codes and next steps |
 | [Key rotation](operations/key-rotation.md) | Preview, encrypted backup and a verified key transition |

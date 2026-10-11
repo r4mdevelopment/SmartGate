@@ -189,6 +189,8 @@ This branch is required for GitHub Actions runs. Another store can be connected 
 - [x] Service acceptance accepted by the user; no additional manual checks are planned.
 - [x] [Optional short route monitoring](docs/en/operations/monitoring.md) with encrypted DNS/TLS/HTTP observations and no DNS writes.
 
+- [x] [Optional emergency failover](docs/en/operations/failover.md): repeated mass-failure checks and up to 25 verified replacements.
+
 [Changelog](CHANGELOG.md) · [Upgrade your fork](docs/en/operations/upgrading.md)
 
 [Improvement priorities and MVP boundaries](docs/en/project/roadmap.md).
