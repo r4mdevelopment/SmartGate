@@ -239,3 +239,64 @@ def test_doh_redirect_does_not_send_request_to_other_origin():
     assert len(seen) == 1
     assert "authorization" not in seen[0].headers
     assert "x-api-key" not in seen[0].headers
+
+
+def test_slow_drip_dns_body_stops_before_consuming_the_whole_response():
+    from smartgate.errors import DnsApiError
+
+    elapsed, consumed, closed = [0.0], [0], []
+
+    class Drip(httpx.SyncByteStream):
+        def __iter__(self):
+            for _ in range(45):
+                elapsed[0] += 3
+                consumed[0] += 1
+                yield b"x"
+
+        def close(self):
+            closed.append(True)
+
+    dns = DnsVerifier(
+        "https://resolver.example/dns-query",
+        clock=lambda: elapsed[0],
+        transport=httpx.MockTransport(
+            lambda request: httpx.Response(
+                200, headers={"Content-Type": "application/dns-message"}, stream=Drip()
+            )
+        ),
+    )
+    try:
+        with pytest.raises(DnsApiError):
+            dns.query("example.com", "A", timeout_s=4)
+        assert consumed[0] <= 2 and elapsed[0] <= 6 and closed
+    finally:
+        dns.close()
+
+
+def test_dns_header_arrival_after_deadline_does_not_read_body():
+    from smartgate.errors import DnsApiError
+
+    elapsed, consumed = [0.0], []
+
+    class Body(httpx.SyncByteStream):
+        def __iter__(self):
+            consumed.append(True)
+            yield b"x"
+
+    def response(request):
+        elapsed[0] = 5
+        return httpx.Response(
+            200, headers={"Content-Type": "application/dns-message"}, stream=Body()
+        )
+
+    dns = DnsVerifier(
+        "https://resolver.example/dns-query",
+        clock=lambda: elapsed[0],
+        transport=httpx.MockTransport(response),
+    )
+    try:
+        with pytest.raises(DnsApiError):
+            dns.query("example.com", "A", timeout_s=4)
+        assert not consumed
+    finally:
+        dns.close()

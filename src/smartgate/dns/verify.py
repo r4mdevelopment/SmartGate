@@ -72,8 +72,12 @@ class DnsVerifier:
                     != "application/dns-message"
                 ):
                     raise DnsApiError("DoH response rejected")
+                if self._clock() > request_deadline:
+                    raise DnsApiError("DoH response exceeded its deadline")
                 content = bytearray()
                 for chunk in response.iter_bytes():
+                    if self._clock() > request_deadline:
+                        raise DnsApiError("DoH response exceeded its deadline")
                     content.extend(chunk)
                     if len(content) > 65535:
                         raise DnsApiError("DoH response exceeds DNS wire size")

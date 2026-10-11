@@ -152,3 +152,7 @@ Run manual `state-encrypt` first with `apply=false`, then, after review, with `a
 ## Manual key rotation
 
 `state-rotate` checks or re-encrypts a single bound Git-state document. It requires paused automatic apply and a temporary new-key Secret. The command creates an encrypted backup before a CAS update; the primary Secret switch remains manual. [Full procedure](key-rotation.md).
+
+## Route monitoring
+
+An optional [short route monitor](monitoring.md) can collect DNS/TLS/HTTP observations every 30 minutes without changing DNS or creating Deployments. Enable its repository variable only after a successful manual check; account usage applies.
