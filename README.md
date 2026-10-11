@@ -187,6 +187,7 @@ This branch is required for GitHub Actions runs. Another store can be connected 
 - [x] [Safe encryption-key rotation](docs/en/operations/key-rotation.md) with a backup and verified state read-back.
 - [x] [Backup recovery and state-upgrade drills](docs/en/operations/recovery-drills.md) on a separate test profile.
 - [x] Service acceptance accepted by the user; no additional manual checks are planned.
+- [x] [Optional short route monitoring](docs/en/operations/monitoring.md) with encrypted DNS/TLS/HTTP observations and no DNS writes.
 
 [Changelog](CHANGELOG.md) · [Upgrade your fork](docs/en/operations/upgrading.md)
 
