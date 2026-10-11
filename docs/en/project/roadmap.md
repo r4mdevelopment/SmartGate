@@ -12,13 +12,12 @@ A new DNS adapter and a new relay are connected independently. A custom relay is
 
 ## Priorities after the MVP
 
-Safe [Summary diagnostics](../operations/diagnostics.md), grouped bilingual documentation, the [release workflow](releases.md), a changelog and the [fork upgrade guide](../operations/upgrading.md) are implemented. The first tagged release still needs preparation and publication through that workflow.
+Safe [Summary diagnostics](../operations/diagnostics.md), grouped bilingual documentation, the [release workflow](releases.md), a changelog and the [fork upgrade guide](../operations/upgrading.md) are implemented. The first tagged release, [v0.1.0](https://github.com/r4mdevelopment/SmartGate/releases/tag/v0.1.0), is published; the release workflow and package artifacts have been verified.
 
 The following items remain planned improvements:
 
 | Priority | Improvement | Benefit for the user |
 | --- | --- | --- |
-| 1 | First versioned release | Validate the draft workflow and review the release artifacts before publication |
 | 2 | Verify completeness of service presets | Separate verified scenarios from assumptions for every preset; confirm login, messages and file operations; avoid enabling all services automatically |
 | 2 | Encryption-key rotation procedure | A verified transition from an old key to a new one with a backup, closed journal and read-back. Arbitrarily replacing the Secret currently makes previous state unreadable |
 | 2 | Recovery checks on separate infrastructure | Supplement simulated failures with safe backup recovery and version-upgrade tests; the active profile is not used for experiments |

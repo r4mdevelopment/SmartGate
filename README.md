@@ -181,7 +181,7 @@ This branch is required for GitHub Actions runs. Another store can be connected 
 - [x] Step-by-step setup and GitHub Actions execution guide.
 - [x] Clearer failure reasons in Summary without exposing domains or addresses.
 - [x] Versioned release preparation, changelog and fork upgrade instructions.
-- [ ] First published versioned release.
+- [x] First published versioned release: [v0.1.0](https://github.com/r4mdevelopment/SmartGate/releases/tag/v0.1.0).
 - [x] English documentation by default and a separate Russian version.
 
 [Changelog](CHANGELOG.md) · [Upgrade your fork](docs/en/operations/upgrading.md)
