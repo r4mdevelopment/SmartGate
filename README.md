@@ -186,7 +186,7 @@ This branch is required for GitHub Actions runs. Another store can be connected 
 - [x] Device access to Claude, Gemini, Spotify, Notion, DeepL and Cursor confirmed without geographic access errors.
 - [ ] Safe encryption-key rotation with a backup and verified state read-back.
 - [ ] Backup recovery and version-upgrade drills on a separate test profile.
-- [ ] Extended service acceptance: login, core features and applicable file operations.
+- [x] Service acceptance accepted by the user; no additional manual checks are planned.
 
 [Changelog](CHANGELOG.md) · [Upgrade your fork](docs/en/operations/upgrading.md)
 
