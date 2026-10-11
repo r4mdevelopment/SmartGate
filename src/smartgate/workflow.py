@@ -30,8 +30,20 @@ def controller_arguments(env: Mapping[str, str]) -> list[str]:
         "state-rotate",
     }:
         raise SafetyBlocked("Unsupported workflow dispatch")
+    emergency = _flag(env, "SMARTGATE_EMERGENCY_ONLY")
+    if emergency and (
+        command not in {"preview", "sync"}
+        or _flag(env, "SMARTGATE_BOOTSTRAP")
+        or _flag(env, "SMARTGATE_REQUIRE_NO_CHANGE")
+        or env.get("SMARTGATE_ROLLBACK_RUN_ID")
+    ):
+        raise SafetyBlocked("Emergency workflow requires isolated sync or preview")
+    if emergency and event == "schedule" and not _flag(env, "SMARTGATE_FAILOVER_ENABLED"):
+        raise SafetyBlocked("Automatic emergency failover is not enabled")
     requested = _flag(env, "SMARTGATE_REQUEST_APPLY")
     automatic = _flag(env, "SMARTGATE_APPLY_ENABLED")
+    if emergency and requested and not automatic:
+        raise SafetyBlocked("Emergency apply requires the automatic apply safety switch")
     bootstrap = _flag(env, "SMARTGATE_BOOTSTRAP")
     no_change = _flag(env, "SMARTGATE_REQUIRE_NO_CHANGE")
     if no_change and (
@@ -60,7 +72,7 @@ def controller_arguments(env: Mapping[str, str]) -> list[str]:
         raise SafetyBlocked("Pause automatic apply before key rotation")
     if command in {"state-encrypt", "state-rotate"} and env.get("SMARTGATE_ROLLBACK_RUN_ID", ""):
         raise SafetyBlocked("State encryption cannot accept a rollback run ID")
-    if event == "schedule" and not apply:
+    if event == "schedule" and not apply and not emergency:
         command = "doctor"
     args = [
         command,
@@ -72,6 +84,8 @@ def controller_arguments(env: Mapping[str, str]) -> list[str]:
         ".smartgate/reports",
         "--private-report",
     ]
+    if emergency:
+        args.append("--emergency-only")
     if apply:
         args.append("--apply")
     if bootstrap:

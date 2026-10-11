@@ -14,6 +14,10 @@ on:
         description: Explicitly apply changes; state commands only update the ledger
         type: boolean
         default: false
+      emergency_only:
+        description: Inspect or apply only confirmed mass failures; no normal publication changes
+        type: boolean
+        default: false
       require_no_change:
         description: Acceptance only; refuse all DNS operations and pending recovery
         type: boolean
@@ -77,6 +81,7 @@ jobs:
           SMARTGATE_BOOTSTRAP: ${{ inputs.bootstrap || 'false' }}
           SMARTGATE_ROLLBACK_RUN_ID: ${{ inputs.rollback_run_id }}
           SMARTGATE_APPLY_ENABLED: ${{ vars.SMARTGATE_APPLY_ENABLED || 'false' }}
+          SMARTGATE_EMERGENCY_ONLY: ${{ inputs.emergency_only || 'false' }}
           SMARTGATE_EVENT: ${{ github.event_name }}
         run: |
           python -m smartgate.workflow

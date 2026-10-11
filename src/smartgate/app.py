@@ -68,6 +68,7 @@ class AppDependencies:
     load_legacy_state: Callable[[], StateDocument | None] | None = None
     legacy_state_key: str | None = None
     require_no_change: bool = False
+    emergency_only: bool = False
     encrypt_state: Callable[[bool], None] | None = None
     rotate_state: Callable[[bool], None] | None = None
 
@@ -80,6 +81,19 @@ def config_digest(config: AppConfig) -> str:
 
 def run(config: AppConfig, mode: str, apply: bool, dependencies: AppDependencies) -> RunReport:
     deps = dependencies
+    if deps.emergency_only:
+        from smartgate.failover import run_failover
+
+        if mode not in {"sync", "preview"} or apply and mode != "sync":
+            return RunReport(
+                uuid4().hex,
+                "blocked",
+                (),
+                (),
+                (),
+                ("Emergency flag requires live sync or preview",),
+            )
+        return run_failover(config, apply, deps)
     run_id = uuid4().hex
     report = RunReport(
         run_id,

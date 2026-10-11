@@ -6,6 +6,8 @@ Versioned changes to SmartGate. See the [upgrade guide](docs/en/operations/upgra
 
 ### Added
 
+- Opt-in emergency failover after repeated mass TLS failure: fresh twice-verified backups, up to 25 failed-owned-route replacements, shared writer serialization and encrypted durable journals. Normal sync limits remain unchanged.
+
 - Opt-in, read-only route monitoring every 30 minutes with bounded DNS/TLS/HTTP observations, authenticated encrypted details, safe summaries and no Deployment entries.
 - Manual `state-rotate` preview and apply with an exclusive encrypted backup, target/ownership guards, non-force CAS and authenticated new-key read-back. Primary Secret changes remain manual.
 - English and Russian key-rotation and isolated recovery-drill guides, plus integration checks for continuing sync and restoring a verified backup.

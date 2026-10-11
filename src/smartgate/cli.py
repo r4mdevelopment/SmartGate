@@ -51,6 +51,7 @@ def parser() -> argparse.ArgumentParser:
         command.add_argument("--config", type=Path, required=True)
         command.add_argument("--apply", action="store_true")
         command.add_argument("--private-report", action="store_true")
+        command.add_argument("--emergency-only", action="store_true")
         command.add_argument(
             "--require-no-change",
             action="store_true",
@@ -142,6 +143,17 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             if name
         ]
+        if args.emergency_only and (
+            args.mode not in {"preview", "sync"}
+            or args.offline
+            or args.bootstrap
+            or args.require_no_change
+            or args.rollback_run_id
+            or args.previous_run_stopped
+        ):
+            raise SafetyBlocked(
+                "Emergency flag requires live sync or preview without recovery flags"
+            )
         if args.require_no_change and (
             args.mode != "sync" or not args.apply or args.offline or args.bootstrap
         ):
@@ -189,7 +201,11 @@ def main(argv: Sequence[str] | None = None) -> int:
                         rollback_run_id=args.rollback_run_id,
                         takeover=args.previous_run_stopped,
                     )
-                deps = replace(deps, require_no_change=args.require_no_change)
+                deps = replace(
+                    deps,
+                    require_no_change=args.require_no_change,
+                    emergency_only=args.emergency_only,
+                )
                 report = run(config, args.mode, args.apply, deps)
     except KeyboardInterrupt:
         report = replace(

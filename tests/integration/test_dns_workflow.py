@@ -237,3 +237,73 @@ def test_scheduled_command_checks_dns_when_automatic_apply_is_disabled(automatic
 def test_manual_readonly_commands_keep_their_original_meaning(command):
     args = controller_arguments(env(SMARTGATE_COMMAND=command))
     assert args[0] == command and "--apply" not in args
+
+
+@pytest.mark.parametrize("automatic", ["false", "true"])
+def test_emergency_schedule_requires_opt_in_and_respects_master_switch(automatic):
+    values = env(
+        SMARTGATE_EVENT="schedule",
+        SMARTGATE_EMERGENCY_ONLY="true",
+        SMARTGATE_APPLY_ENABLED=automatic,
+    )
+    with pytest.raises(SafetyBlocked):
+        controller_arguments(values)
+    args = controller_arguments(values | {"SMARTGATE_FAILOVER_ENABLED": "true"})
+    assert args[0] == "sync" and "--emergency-only" in args
+    assert ("--apply" in args) == (automatic == "true")
+
+
+@pytest.mark.parametrize(
+    "values",
+    [
+        {"SMARTGATE_COMMAND": "doctor"},
+        {"SMARTGATE_COMMAND": "recover"},
+        {"SMARTGATE_BOOTSTRAP": "true"},
+        {"SMARTGATE_REQUIRE_NO_CHANGE": "true"},
+        {"SMARTGATE_ROLLBACK_RUN_ID": "abc"},
+        {"SMARTGATE_EMERGENCY_ONLY": "yes"},
+        {"SMARTGATE_REQUEST_APPLY": "true", "SMARTGATE_APPLY_ENABLED": "false"},
+        {
+            "SMARTGATE_REQUEST_APPLY": "true",
+            "SMARTGATE_APPLY_ENABLED": "true",
+            "GITHUB_REF": "refs/heads/topic",
+        },
+    ],
+)
+def test_emergency_workflow_rejects_unsafe_combinations(values):
+    with pytest.raises(SafetyBlocked):
+        controller_arguments(env(**({"SMARTGATE_EMERGENCY_ONLY": "true"} | values)))
+
+
+def test_emergency_preview_requires_no_apply_switch_or_initialization():
+    args = controller_arguments(env(SMARTGATE_COMMAND="preview", SMARTGATE_EMERGENCY_ONLY="true"))
+    assert args[0] == "preview" and "--emergency-only" in args and "--apply" not in args
+
+
+def test_monitor_writer_is_separately_gated_and_serialized_with_sync():
+    from pathlib import Path
+
+    monitor = Path(".github/workflows/monitor.yml").read_text()
+    reader, writer = monitor.split("  failover:\n", 1)
+    sync = Path(".github/workflows/sync.yml").read_text()
+    assert "contents: write" not in reader
+    assert (
+        "default: false" in reader
+        and "failover_needed: ${{ steps.observe.outputs.failover_needed }}" in reader
+    )
+    for gate in [
+        "needs.monitor.result == 'success'",
+        "needs.monitor.outputs.failover_needed == 'true'",
+        "vars.SMARTGATE_FAILOVER_ENABLED == 'true'",
+        "inputs.emergency_apply == true",
+        "github.event.repository.default_branch",
+    ]:
+        assert gate in writer
+    assert "contents: write" in writer and "deployment: false" in writer
+    assert (
+        "group: smartgate-${{ github.repository }}" in writer
+        and "group: smartgate-${{ github.repository }}" in sync
+    )
+    assert "cancel-in-progress: false" in writer and "SMARTGATE_EMERGENCY_ONLY: true" in writer
+    assert "vars.SMARTGATE_APPLY_ENABLED == 'true'" in writer
+    assert "--bootstrap" not in writer and ".smartgate/reports/report.enc.json" in writer

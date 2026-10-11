@@ -123,3 +123,7 @@ For live `sync --apply`, add `--require-no-change`. A fresh plan containing any 
 ## State key rotation
 
 `state-rotate` requires live bound Git state, `SMARTGATE_STATE_NEW_ENCRYPTION_KEY` and paused automatic apply. Without `--apply` it only checks; with `--apply` it backs up and re-encrypts the ledger without DNS writes. Bootstrap, offline, rollback ID and no-change acceptance flags are not accepted. See [key rotation](key-rotation.md).
+
+## Emergency-only inspection
+
+`preview --emergency-only` inspects only an eligible mass failure; `sync --emergency-only --apply` uses the restricted replacement plan. Bootstrap, offline mode, recovery, rollback and no-change acceptance cannot be combined with it. In Actions, select `emergency_only=true` with `command=preview` for read-only inspection. Emergency apply also requires the Environment apply safety switch. See [conditions, opt-in and limits](failover.md).

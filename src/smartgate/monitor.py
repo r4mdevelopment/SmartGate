@@ -172,6 +172,18 @@ def public_summary(report: MonitorReport) -> dict[str, object]:
     }
 
 
+def failover_needed(report: MonitorReport) -> bool:
+    from smartgate.failover import mass_failure
+
+    if report.issues or not report.routes or any(r.dns_ok is not True for r in report.routes):
+        return False
+    failed = sum(
+        not r.http.tls_ok and r.http.classification in {"timeout", "connection_error"}
+        for r in report.routes
+    )
+    return mass_failure(failed, len(report.routes))
+
+
 def write_reports(
     report: MonitorReport, directory: Path, cipher: EnvelopeCipher, binding: EnvelopeBinding
 ) -> None:
@@ -275,6 +287,11 @@ def main(argv: list[str] | None = None, *, env: Mapping[str, str] | None = None)
         code = 4
     try:
         write_reports(report, args.report_dir, cipher, binding)
+        if values.get("GITHUB_OUTPUT"):
+            with Path(values["GITHUB_OUTPUT"]).open("a", encoding="utf-8") as output:
+                output.write(
+                    "failover_needed=" + str(not code and failover_needed(report)).lower() + "\n"
+                )
     except Exception:
         print("Monitor report could not be safely written")
         return 5

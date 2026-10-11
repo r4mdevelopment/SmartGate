@@ -6,6 +6,8 @@
 
 **SmartGate monitor** records short DNS, TLS and HTTP observations of published routes. It does not change DNS records, select replacement addresses, recover a journal or save state. The normal six-hour sync remains independent.
 
+The observing job remains read-only. If separately enabled, this workflow may run a gated [emergency writer](failover.md) after a complete mass-failure observation. A normal manual run leaves `emergency_apply` unchecked and cannot launch it.
+
 ## Enable monitoring
 
 1. Complete the normal setup, including encrypted state and a successful sync. The monitor uses the existing `smartgate` Environment secrets and the same DNS adapter configuration.

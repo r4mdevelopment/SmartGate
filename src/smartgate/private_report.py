@@ -31,6 +31,9 @@ COUNT_NAMES = {
     "probes",
     "selected",
     "operations",
+    "failover_owned",
+    "failover_failed_initial",
+    "failover_failed_confirmed",
 }
 
 
@@ -55,17 +58,18 @@ def public_report(report: RunReport) -> tuple[str, str]:
     configuration_valid = report.status == "preview" and report.errors == ("Configuration valid",)
     has_errors = bool(report.errors) and not configuration_valid
     issues = public_issues(report)
+    counts = {
+        name: value
+        for name, value in report.counts
+        if name in COUNT_NAMES and type(value) is int and value >= 0
+    }
     data = {
         "run_id": report.run_id if re.fullmatch(r"[0-9a-f]{32}", report.run_id) else None,
         "status": report.status,
         "offline": report.offline,
         "exit_code": exit_code(report),
         "workflow_exit_code": workflow_exit_code(report),
-        "counts": {
-            name: value
-            for name, value in report.counts
-            if name in COUNT_NAMES and type(value) is int and value >= 0
-        },
+        "counts": counts,
         "operations": len(report.plan.operations) if report.plan else 0,
         "checks": {
             "total": len(report.checks),
@@ -103,6 +107,16 @@ def public_report(report: RunReport) -> tuple[str, str]:
         "Detailed operational data is available only in the encrypted artifact.",
         "",
     ]
+    if "failover_owned" in counts:
+        lines += ["Emergency-only inspection: normal publication changes are excluded.", ""]
+        for name, label in (
+            ("failover_owned", "Published owned routes"),
+            ("failover_failed_initial", "Initially failed TLS routes"),
+            ("failover_failed_confirmed", "Confirmed failed TLS routes"),
+        ):
+            if name in counts:
+                lines.append(label + ": " + str(counts[name]))
+        lines.append("")
     if configuration_valid:
         lines += ["Configuration valid", ""]
     if issues:

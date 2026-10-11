@@ -156,3 +156,7 @@ Run manual `state-encrypt` first with `apply=false`, then, after review, with `a
 ## Route monitoring
 
 An optional [short route monitor](monitoring.md) can collect DNS/TLS/HTTP observations every 30 minutes without changing DNS or creating Deployments. Enable its repository variable only after a successful manual check; account usage applies.
+
+## Emergency-only inspection
+
+`preview --emergency-only` inspects only an eligible mass failure; `sync --emergency-only --apply` uses the restricted replacement plan. Bootstrap, offline mode, recovery, rollback and no-change acceptance cannot be combined with it. In Actions, select `emergency_only=true` with `command=preview` for read-only inspection. Emergency apply also requires the Environment apply safety switch. See [conditions, opt-in and limits](failover.md).
