@@ -69,6 +69,7 @@ class AppDependencies:
     legacy_state_key: str | None = None
     require_no_change: bool = False
     encrypt_state: Callable[[bool], None] | None = None
+    rotate_state: Callable[[bool], None] | None = None
 
 
 def config_digest(config: AppConfig) -> str:
@@ -109,18 +110,21 @@ def run(config: AppConfig, mode: str, apply: bool, dependencies: AppDependencies
             "rollback",
             "state-upgrade",
             "state-encrypt",
+            "state-rotate",
         }:
             raise ConfigError("Unsupported command")
         if apply and (
-            mode not in {"sync", "recover", "rollback", "state-upgrade", "state-encrypt"}
+            mode
+            not in {"sync", "recover", "rollback", "state-upgrade", "state-encrypt", "state-rotate"}
             or deps.offline
         ):
             raise SafetyBlocked("Apply requires a live sync, recover or rollback command")
         if apply and not deps.production_apply:
             raise SafetyBlocked("DNS adapter is not verified for production apply")
-        if mode == "state-encrypt":
+        if mode in {"state-encrypt", "state-rotate"}:
+            state_command = deps.rotate_state if mode == "state-rotate" else deps.encrypt_state
             if (
-                deps.encrypt_state is None
+                state_command is None
                 or deps.bootstrap
                 or deps.allow_recovery_takeover
                 or deps.rollback_run_id
@@ -128,7 +132,7 @@ def run(config: AppConfig, mode: str, apply: bool, dependencies: AppDependencies
                 raise SafetyBlocked(
                     "Explicit state encryption is unavailable for this configuration"
                 )
-            deps.encrypt_state(apply)
+            state_command(apply)
             return replace(
                 report, status="no_change" if apply else "preview", counts=(("mutations", 0),)
             )

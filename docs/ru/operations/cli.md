@@ -118,3 +118,8 @@ python -m smartgate preview --config config/smartgate.actions.toml --state-provi
 ---
 
 [Все документы](../README.md) · [Главная](../../../README.ru.md) · [Настройка Actions](actions.md) · [Помощь при сбое](runbook.md)
+
+
+## Смена ключа состояния
+
+`state-rotate` требует живого привязанного Git-состояния, `SMARTGATE_STATE_NEW_ENCRYPTION_KEY` и выключенного автоприменения. Без `--apply` выполняется только проверка; с `--apply` создаётся backup и перешифровывается журнал без DNS-записей. Bootstrap, offline, rollback ID и флаг приёмки без изменений не допускаются. [Порядок перехода](key-rotation.md).

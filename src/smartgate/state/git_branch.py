@@ -3,9 +3,11 @@
 import base64
 import binascii
 import json
+import os
 import re
 import time
 from dataclasses import dataclass, replace
+from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 from uuid import uuid4
@@ -14,7 +16,7 @@ import httpx
 
 from smartgate.errors import RecoveryRequired, SafetyBlocked, StateConflict
 from smartgate.models import StateDocument
-from smartgate.security.envelope import envelope_limit
+from smartgate.security.envelope import EnvelopeCipher, envelope_limit
 from smartgate.state.codec import MAX_STATE_BYTES, decode_state, encode_state, validate_state_key
 from smartgate.state.encrypted import EncryptedStateCodec, GitStateCodec
 
@@ -270,6 +272,96 @@ class GitBranchStateStore:
             raise RecoveryRequired(
                 "State encryption result unknown; inspect before retry"
             ) from None
+        return revision
+
+    def rotate_encryption(
+        self, old: StateDocument, cipher: EnvelopeCipher, backup: Path, *, apply: bool
+    ) -> str | None:
+        """Rotate one bound state with an exclusive encrypted backup and one CAS write."""
+        if not isinstance(self._codec, EncryptedStateCodec) or old.revision is None:
+            raise SafetyBlocked("Rotation requires existing encrypted Git state")
+        parent = old.revision
+        if self._head() != parent:
+            raise StateConflict("State changed before key rotation")
+        raw = self._read_data_at(old.profile_id, parent)
+        if raw is None or self._codec.decode(raw, old.profile_id, parent) != old:
+            raise StateConflict("Rotation source differs from saved state")
+        commit = self._request("GET", "/git/commits/" + parent)
+        tree = _sha(commit["tree"]["sha"])
+        inventory = self._request("GET", "/git/trees/" + tree + "?recursive=1")
+        entries = inventory.get("tree")
+        if inventory.get("truncated") is not False or not isinstance(entries, list):
+            raise SafetyBlocked("Rotation requires a complete state tree")
+        state_files = [
+            entry.get("path")
+            for entry in entries
+            if isinstance(entry, dict)
+            and entry.get("type") == "blob"
+            and isinstance(entry.get("path"), str)
+            and entry["path"].startswith("state/")
+        ]
+        if state_files != ["state/" + old.profile_id + ".json"]:
+            raise SafetyBlocked("Rotation requires a single state document on this branch")
+        updated_codec = self._codec.with_cipher(cipher)
+        candidate = updated_codec.encode(old)
+        if updated_codec.decode(candidate, old.profile_id, parent) != old:
+            raise SafetyBlocked("New key round-trip failed")
+        try:
+            self._codec.decode(candidate, old.profile_id, parent)
+        except SafetyBlocked:
+            pass
+        else:
+            raise SafetyBlocked("New encryption key must differ from the current key")
+        if not apply:
+            return None
+        try:
+            backup.parent.mkdir(parents=True, exist_ok=True)
+            with backup.open("xb") as destination:
+                destination.write(raw)
+                destination.flush()
+                os.fsync(destination.fileno())
+            if backup.read_bytes() != raw:
+                raise SafetyBlocked("Rotation backup verification failed")
+        except OSError:
+            raise SafetyBlocked("Rotation requires a new writable backup path") from None
+        if self._head() != parent:
+            raise StateConflict("State changed after rotation backup")
+        previous_codec = self._codec
+        self._codec = updated_codec
+        self._state_cache = None
+        try:
+            revision = self._commit(old, parent)
+            if self._head() != parent:
+                raise StateConflict("State changed before rotation reference update")
+        except Exception:
+            self._codec = previous_codec
+            raise
+        try:
+            response = self._request(
+                "PATCH", "/git/refs/heads/" + self._branch, {"sha": revision, "force": False}
+            )
+            if _sha(response["object"]["sha"]) != revision:
+                raise SafetyBlocked("Rotation reference confirmation disagrees")
+            self._confirmed_save = (revision, parent)
+        except StateConflict:
+            self._codec = previous_codec
+            raise
+        except (SafetyBlocked, KeyError, TypeError):
+            # An ambiguous write is never sent again; inspect its exact proposed commit.
+            pass
+        try:
+            if self._head() != revision:
+                raise SafetyBlocked("Rotation commit is not the current head")
+            data = self._read_data_at(old.profile_id, revision)
+            if (
+                data is None
+                or updated_codec.decode(data, old.profile_id, revision)
+                != replace(old, revision=revision)
+                or self._head() != revision
+            ):
+                raise SafetyBlocked("Rotation read-back differs")
+        except (SafetyBlocked, StateConflict):
+            raise RecoveryRequired("Key rotation result unknown; inspect before retry") from None
         return revision
 
     def load(self, profile_id: str) -> StateDocument | None:

@@ -45,6 +45,7 @@ def parser() -> argparse.ArgumentParser:
         "doctor",
         "state-upgrade",
         "state-encrypt",
+        "state-rotate",
     ):
         command = commands.add_parser(mode)
         command.add_argument("--config", type=Path, required=True)
@@ -112,6 +113,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         env.get("NEXTDNS_API_KEY", ""),
         env.get("GITHUB_TOKEN", ""),
         env.get("SMARTGATE_STATE_ENCRYPTION_KEY", ""),
+        env.get("SMARTGATE_STATE_NEW_ENCRYPTION_KEY", ""),
     ]
     try:
         config = load_config(args.config, env)
@@ -146,12 +148,13 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise SafetyBlocked("No-change acceptance requires live sync --apply without bootstrap")
         if args.apply and (
             args.offline
-            or args.mode not in {"sync", "recover", "rollback", "state-upgrade", "state-encrypt"}
+            or args.mode
+            not in {"sync", "recover", "rollback", "state-upgrade", "state-encrypt", "state-rotate"}
         ):
             raise SafetyBlocked("Apply requires live sync, recover or rollback")
         if (
             args.apply
-            and args.mode not in {"state-upgrade", "state-encrypt"}
+            and args.mode not in {"state-upgrade", "state-encrypt", "state-rotate"}
             and not config.sync.enabled
         ):
             raise SafetyBlocked("sync.enabled=false blocks apply")
@@ -161,7 +164,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise SafetyBlocked("Early takeover requires an explicit recovery or rollback apply")
         if args.bootstrap and args.mode not in {"preview", "sync"}:
             raise SafetyBlocked("Bootstrap is only for preview or sync")
-        if args.mode == "state-encrypt" and (args.offline or args.rollback_run_id):
+        if args.mode in {"state-encrypt", "state-rotate"} and (
+            args.offline or args.rollback_run_id
+        ):
             raise SafetyBlocked(
                 "State encryption requires live metadata migration without rollback ID"
             )

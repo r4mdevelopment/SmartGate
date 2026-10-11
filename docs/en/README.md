@@ -23,6 +23,8 @@ Choose your task: configure the controller, check access, recover a run or conne
 | Document | What you will find |
 | --- | --- |
 | [Error reasons in Summary](operations/diagnostics.md) | Safe codes and next steps |
+| [Key rotation](operations/key-rotation.md) | Preview, encrypted backup and a verified key transition |
+| [Recovery drills](operations/recovery-drills.md) | Separate-profile upgrade and backup checks |
 | [Incident response](operations/runbook.md) | Blocked, degraded, pending and recovery |
 | [Switching relays](operations/migration.md) | Moving from GeoHide to your own manifest and back |
 | [Relay providers](providers/relays.md) | GeoHide sources and the custom manifest format |

@@ -8,7 +8,7 @@ on:
       command:
         description: Controller command
         type: choice
-        options: [preview, sync, doctor, recover, rollback, state-upgrade, state-encrypt]
+        options: [preview, sync, doctor, recover, rollback, state-upgrade, state-rotate, state-encrypt]
         default: preview
       apply:
         description: Explicitly apply changes; state commands only update the ledger
@@ -69,6 +69,7 @@ jobs:
           NEXTDNS_API_KEY: ${{ secrets.NEXTDNS_API_KEY }}
           NEXTDNS_PROFILE_ID: ${{ secrets.NEXTDNS_PROFILE_ID || vars.NEXTDNS_PROFILE_ID }}
           SMARTGATE_STATE_ENCRYPTION_KEY: ${{ secrets.SMARTGATE_STATE_ENCRYPTION_KEY }}
+          SMARTGATE_STATE_NEW_ENCRYPTION_KEY: ${{ inputs.command == 'state-rotate' && secrets.SMARTGATE_STATE_NEW_ENCRYPTION_KEY || '' }}
           GITHUB_TOKEN: ${{ github.token }}
           SMARTGATE_COMMAND: ${{ inputs.command || 'sync' }}
           SMARTGATE_REQUEST_APPLY: ${{ inputs.apply || 'false' }}
@@ -98,6 +99,7 @@ jobs:
             .smartgate/reports/report.json
             .smartgate/reports/report.md
             .smartgate/reports/report.enc.json
+            .smartgate/rotation/before.enc.json
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 7

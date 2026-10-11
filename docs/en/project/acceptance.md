@@ -12,7 +12,7 @@ Live checks were performed in a separately configured deployment. This public so
 
 | Check | Result | Confirmed scope |
 | --- | --- | --- |
-| Unit / contract / integration | Passed | 696 offline tests; 3 opt-in live tests excluded from ordinary CI |
+| Unit / contract / integration | Passed | 716 offline tests; 3 opt-in live tests excluded from ordinary CI |
 | Style, types and build | Passed | Ruff, mypy, sdist/wheel build |
 | CI Windows 3.12, Linux 3.12/3.13 | Passed | [Public CI workflow](https://github.com/r4mdevelopment/SmartGate/actions/workflows/ci.yml); the matrix also passed before source publication |
 | NextDNS API and DoH | Live-verified | Create, replacement through delete/create, delete, read-back, subtree precedence and profile-specific DNS answers; [compatibility boundaries](../development/compatibility.md) |
@@ -26,6 +26,7 @@ Live checks were performed in a separately configured deployment. This public so
 | Read-only doctor after the state-store update | Passed | Read-only check in a separately configured deployment: successful Actions, 100/100 DNS checks; rules and state revision unchanged |
 | Official GeoHide hosts | Read successfully | RU/EU/US directly from the website; 1020 domains in each checked file. Preview with RU/EU proposed 0 DNS operations; all 25 rules and state were retained |
 | GeoHide / custom relay | Contract verified | Switching and switching back on fixtures without DNS-layer changes; no real VPS was deployed |
+| Key rotation and isolated backup recovery | Live-checked on 11 October 2026 | Separate empty DNS profile and test state branch: schema upgrade, rotation, metadata backup restore; record IDs/contents unchanged, test resources removed. Fault injection and ordinary no-change continuation covered offline; v0.1.0 state-reader compatibility checked separately |
 | Recovery, rollback and delayed read-back | Covered by tests | Interruptions, unknown outcomes, manual drift, conflicts and delayed Git refs. All failure variants were deliberately not reproduced on live infrastructure |
 
 ## What the warnings mean

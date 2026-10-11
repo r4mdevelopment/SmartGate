@@ -184,8 +184,8 @@ This branch is required for GitHub Actions runs. Another store can be connected 
 - [x] First published versioned release: [v0.1.0](https://github.com/r4mdevelopment/SmartGate/releases/tag/v0.1.0).
 - [x] English documentation by default and a separate Russian version.
 - [x] Device access to Claude, Gemini, Spotify, Notion, DeepL and Cursor confirmed without geographic access errors.
-- [ ] Safe encryption-key rotation with a backup and verified state read-back.
-- [ ] Backup recovery and version-upgrade drills on a separate test profile.
+- [x] [Safe encryption-key rotation](docs/en/operations/key-rotation.md) with a backup and verified state read-back.
+- [x] [Backup recovery and state-upgrade drills](docs/en/operations/recovery-drills.md) on a separate test profile.
 - [x] Service acceptance accepted by the user; no additional manual checks are planned.
 
 [Changelog](CHANGELOG.md) · [Upgrade your fork](docs/en/operations/upgrading.md)

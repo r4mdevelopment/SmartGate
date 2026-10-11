@@ -118,3 +118,8 @@ For live `sync --apply`, add `--require-no-change`. A fresh plan containing any 
 ---
 
 [All documentation](../README.md) · [Home](../../../README.md) · [Actions setup](actions.md) · [Troubleshooting](runbook.md)
+
+
+## State key rotation
+
+`state-rotate` requires live bound Git state, `SMARTGATE_STATE_NEW_ENCRYPTION_KEY` and paused automatic apply. Without `--apply` it only checks; with `--apply` it backs up and re-encrypts the ledger without DNS writes. Bootstrap, offline, rollback ID and no-change acceptance flags are not accepted. See [key rotation](key-rotation.md).

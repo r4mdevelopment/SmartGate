@@ -4,7 +4,10 @@ Versioned changes to SmartGate. See the [upgrade guide](docs/en/operations/upgra
 
 ## [Unreleased]
 
-No additional changes recorded.
+### Added
+
+- Manual `state-rotate` preview and apply with an exclusive encrypted backup, target/ownership guards, non-force CAS and authenticated new-key read-back. Primary Secret changes remain manual.
+- English and Russian key-rotation and isolated recovery-drill guides, plus integration checks for continuing sync and restoring a verified backup.
 
 ## [0.1.0] - 2026-10-10
 

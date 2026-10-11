@@ -27,6 +27,7 @@ def controller_arguments(env: Mapping[str, str]) -> list[str]:
         "rollback",
         "state-upgrade",
         "state-encrypt",
+        "state-rotate",
     }:
         raise SafetyBlocked("Unsupported workflow dispatch")
     requested = _flag(env, "SMARTGATE_REQUEST_APPLY")
@@ -40,7 +41,14 @@ def controller_arguments(env: Mapping[str, str]) -> list[str]:
     if event == "schedule" and (command != "sync" or bootstrap or requested):
         raise SafetyBlocked("Scheduled runs only support ordinary sync")
     apply = automatic if event == "schedule" else requested
-    if apply and command not in {"sync", "recover", "rollback", "state-upgrade", "state-encrypt"}:
+    if apply and command not in {
+        "sync",
+        "recover",
+        "rollback",
+        "state-upgrade",
+        "state-encrypt",
+        "state-rotate",
+    }:
         raise SafetyBlocked("Read-only commands cannot apply")
     if apply:
         branch = env.get("SMARTGATE_DEFAULT_BRANCH", "")
@@ -48,7 +56,9 @@ def controller_arguments(env: Mapping[str, str]) -> list[str]:
             raise SafetyBlocked("Workflow apply requires the default branch")
     if bootstrap and command not in {"preview", "sync"}:
         raise SafetyBlocked("Bootstrap is only valid for preview or sync")
-    if command == "state-encrypt" and env.get("SMARTGATE_ROLLBACK_RUN_ID", ""):
+    if command == "state-rotate" and automatic:
+        raise SafetyBlocked("Pause automatic apply before key rotation")
+    if command in {"state-encrypt", "state-rotate"} and env.get("SMARTGATE_ROLLBACK_RUN_ID", ""):
         raise SafetyBlocked("State encryption cannot accept a rollback run ID")
     if event == "schedule" and not apply:
         command = "doctor"

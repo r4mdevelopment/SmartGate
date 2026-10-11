@@ -117,3 +117,8 @@ Live Git storage saves the entire document in an AES-256-GCM envelope. The JSON 
 ---
 
 [All documentation](../README.md) · [Home](../../../README.md) · [Actions setup](actions.md) · [Troubleshooting](runbook.md)
+
+
+## Manual key rotation
+
+`state-rotate` checks or re-encrypts a single bound Git-state document. It requires paused automatic apply and a temporary new-key Secret. The command creates an encrypted backup before a CAS update; the primary Secret switch remains manual. [Full procedure](key-rotation.md).
