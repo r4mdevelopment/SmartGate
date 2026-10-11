@@ -59,7 +59,12 @@ def checker(response=b"HTTP/1.1 200 OK\r\n\r\n", error=None):
         calls.append((address, timeout))
         return raw
 
-    return module().HttpMonitor(dialer=dial, context_factory=lambda: context), context, calls, raw
+    return (
+        module().HttpMonitor(dialer=dial, context_factory=lambda: context, clock=lambda: 0.0),
+        context,
+        calls,
+        raw,
+    )
 
 
 def test_http_dials_numeric_ip_with_verified_sni_and_no_credentials():
