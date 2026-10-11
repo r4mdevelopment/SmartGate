@@ -26,6 +26,9 @@ class EncryptedStateCodec:
     def __init__(self, cipher: EnvelopeCipher, repository: str, branch: str) -> None:
         self._cipher, self._repository, self._branch = cipher, repository, branch
 
+    def with_cipher(self, cipher: EnvelopeCipher) -> "EncryptedStateCodec":
+        return EncryptedStateCodec(cipher, self._repository, self._branch)
+
     def _binding(self, state_key: str) -> EnvelopeBinding:
         validate_state_key(state_key)
         return EnvelopeBinding("state", self._repository, self._branch, state_key)

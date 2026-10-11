@@ -29,6 +29,7 @@ from smartgate.security.envelope import EnvelopeCipher, parse_encryption_key
 from smartgate.state.encrypted import EncryptedStateCodec
 from smartgate.state.encryption_migration import migrate_state_encryption
 from smartgate.state.git_branch import GitBranchStateStore, GitHubClient
+from smartgate.state.key_rotation import rotate_state_key
 from smartgate.state.local import LocalStateStore
 from smartgate.state.upgrade import upgrade_legacy_state
 
@@ -175,6 +176,23 @@ def live_dependencies(
             raise SafetyBlocked("Encryption migration requires bound Git state")
         migrate_state_encryption(store, bundle.target, bundle.provider, apply=apply)
 
+    def rotate_state(apply: bool) -> None:
+        if not isinstance(store, GitBranchStateStore) or config.dns.legacy:
+            raise SafetyBlocked("Key rotation requires bound Git state")
+        if env.get("SMARTGATE_APPLY_ENABLED", "false") != "false":
+            raise SafetyBlocked("Pause automatic apply before key rotation")
+        new_cipher = EnvelopeCipher(
+            parse_encryption_key(required("SMARTGATE_STATE_NEW_ENCRYPTION_KEY"))
+        )
+        rotate_state_key(
+            store,
+            bundle.target,
+            bundle.provider,
+            new_cipher,
+            Path(".smartgate/rotation/before.enc.json"),
+            apply=apply,
+        )
+
     # Subtree semantics were verified in the public NextDNS compatibility evidence;
     # every apply still checks actual profile answers and exact API read-back.
     return AppDependencies(
@@ -196,6 +214,7 @@ def live_dependencies(
         production_apply=bundle.capabilities.production_apply,
         upgrade_state=upgrade_state,
         encrypt_state=encrypt_state,
+        rotate_state=rotate_state,
         legacy_state_key=bundle.legacy_state_key,
         load_legacy_state=(lambda: store.load(bundle.target.namespace))
         if isinstance(store, LocalStateStore)

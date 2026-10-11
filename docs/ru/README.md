@@ -24,6 +24,8 @@
 | --- | --- |
 | [Причины ошибок в Summary](operations/diagnostics.md) | Безопасные коды и следующие действия |
 | [Действия при сбое](operations/runbook.md) | Blocked, degraded, pending и восстановление |
+| [Смена ключа](operations/key-rotation.md) | Проверка, encrypted backup и подтверждённый переход |
+| [Проверки восстановления](operations/recovery-drills.md) | Проверки обновления и backup на отдельном профиле |
 | [Смена relay](operations/migration.md) | Переход с GeoHide на собственный manifest и возврат |
 | [Relay-провайдеры](providers/relays.md) | Источники GeoHide и формат собственного manifest |
 | [Синхронизация DNS](architecture/reconcile.md) | План изменений, apply, recovery и rollback |

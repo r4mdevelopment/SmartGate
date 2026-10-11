@@ -16,12 +16,12 @@ A new DNS adapter and a new relay are connected independently. A custom relay is
 
 Safe [Summary diagnostics](../operations/diagnostics.md), grouped bilingual documentation, the [release workflow](releases.md), a changelog and the [fork upgrade guide](../operations/upgrading.md) are implemented. The first tagged release, [v0.1.0](https://github.com/r4mdevelopment/SmartGate/releases/tag/v0.1.0), is published; the release workflow and package artifacts have been verified.
 
-The following items remain planned improvements:
+The following operational improvements are implemented and checked:
 
-| Priority | Improvement | Benefit for the user |
+| Status | Improvement | Benefit for the user |
 | --- | --- | --- |
-| 1 | Encryption-key rotation procedure | Back up state, require a closed journal, re-encrypt with the new key and verify reading before completing the switch; never silently replace a Secret |
-| 2 | Recovery checks on separate infrastructure | Exercise backup recovery and version upgrades on a disposable profile, with expected DNS records and ownership checked before and after |
+| Complete | [Encryption-key rotation](../operations/key-rotation.md) | Back up state, require a closed journal, re-encrypt with the new key and verify reading before completing the switch; never silently replace a Secret |
+| Complete | [Isolated recovery drills](../operations/recovery-drills.md) | Backup recovery, schema 1 → 2 state upgrade and key rotation checked on a disposable profile; owned DNS records unchanged. The published v0.1.0 decoder also reads rotated state |
 
 Additional DNS adapters can develop through community contributions. They require their own API/DNS compatibility checks and record-ownership evidence; a successful mock test or a single harness run does not automatically enable production writes.
 
