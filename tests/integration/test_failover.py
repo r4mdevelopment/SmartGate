@@ -353,6 +353,7 @@ def test_public_failover_summary_has_counts_without_route_details(monkeypatch):
     result = observe(config, deps, False)
     encoded, summary = public_report(result)
     assert '"failover_failed_confirmed": 25' in encoded and "Emergency-only" in summary
+    assert "Confirmed failed TLS routes: 25" in summary
     for private in ("chatgpt.com", "8.8.8.8", "1.1.1.1", "abcdef"):
         assert private not in encoded + summary
 
